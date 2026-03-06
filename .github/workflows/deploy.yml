@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # अगर आपकी ब्रांच का नाम master है तो यहाँ master लिखें
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Build
