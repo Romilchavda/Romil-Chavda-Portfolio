@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
 
 
-  base: '/Romilchavda/Romil-Chavda-Portfolio/',
+  base: '/Romil-Chavda-Portfolio/',
   
   build: {
     outDir: 'dist',
