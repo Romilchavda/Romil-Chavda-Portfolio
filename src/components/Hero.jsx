@@ -1,23 +1,34 @@
+import React from 'react';
+
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 px-6">
-      <div className="max-w-4xl text-center">
-        <div className="inline-block px-4 py-1.5 mb-6 border border-indigo-500/30 bg-indigo-500/10 rounded-full">
-          <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest">Available for hire</span>
-        </div>
-        <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-          CRAFTING <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-400">DIGITAL</span> EXPERIENCES.
-        </h1>
-        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-          Hi, I'm <span className="text-white font-medium">Romil Chavda</span>. A Full Stack Developer building high-end web applications with precision and passion.
+    <section className="relative min-h-[90vh] flex flex-col justify-center px-6 overflow-hidden grid-bg">
+      {/* Background Glow */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 blur-[120px] rounded-full -z-10"></div>
+      
+      <div className="max-w-5xl mx-auto w-full">
+        <p className="text-indigo-400 font-mono text-sm tracking-[0.3em] mb-4 uppercase">
+          Based in India &bull; Full Stack Developer
         </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <a href="#projects" className="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold transition-all w-full md:w-auto">
-            View Projects
-          </a>
-          <a href="#contact" className="border border-white/10 hover:bg-white/5 text-white px-10 py-4 rounded-2xl font-bold transition-all w-full md:w-auto">
-            Let's Talk
-          </a>
+        
+        <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-tighter leading-[0.9] mb-8">
+          BUILDING <br />
+          <span className="text-slate-500">DIGITAL</span> PRODUCTS.
+        </h1>
+        
+        <div className="flex flex-col md:flex-row md:items-end gap-8">
+          <p className="max-w-md text-lg text-slate-400 font-light leading-relaxed">
+            I am <span className="text-white font-medium">Romil Chavda</span>. I specialize in building highly interactive and performant web applications that users love.
+          </p>
+          
+          <div className="flex gap-4">
+            <a href="#projects" className="h-12 px-8 flex items-center bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all">
+              See My Work
+            </a>
+            <a href="#contact" className="h-12 px-8 flex items-center border border-slate-800 font-bold rounded-full hover:bg-slate-900 transition-all">
+              Hire Me
+            </a>
+          </div>
         </div>
       </div>
     </section>
