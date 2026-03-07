@@ -1,51 +1,55 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { id: 1, title: "CYBERPUNK DASHBOARD", year: "2024", img: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2000" },
-  { id: 2, title: "AESTHETIC E-COM", year: "2023", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2000" },
+  { id: 1, title: "ULTRA REALISM", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000" },
+  { id: 2, title: "NEON DARKNESS", img: "https://images.unsplash.com/photo-1605142805531-99af4974d722?q=80&w=2000" },
+  { id: 3, title: "MINIMAL VOID", img: "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=2000" },
+  { id: 4, title: "FUTURE GRID", img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000" },
 ];
 
 const Projects = () => {
-  return (
-    <section id="work" className="py-32 px-6 md:px-20 bg-[#0a0a0a]">
-      <div className="mb-20">
-        <h2 className="text-indigo-500 font-mono text-xs tracking-[0.5em] uppercase mb-4">Case Studies</h2>
-        <h3 className="text-5xl md:text-8xl font-black tracking-tighter uppercase italic">Featured <br /> <span className="text-transparent stroke-text">Work</span></h3>
-      </div>
+  const containerRef = useRef();
+  const sliderRef = useRef();
 
-      <div className="flex flex-col gap-40">
+  useEffect(() => {
+    let sections = gsap.utils.toArray(".project-slide");
+
+    gsap.to(sections, {
+      xPercent: -100 * (sections.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        pin: true,
+        scrub: 1,
+        snap: 1 / (sections.length - 1),
+        end: () => "+=" + containerRef.current.offsetWidth
+      }
+    });
+  }, []);
+
+  return (
+    <div ref={containerRef} className="overflow-hidden bg-[#080808]">
+      <div ref={sliderRef} className="flex w-[400vw] h-screen items-center">
         {projects.map((proj) => (
-          <div key={proj.id} className="project-item group w-full">
-            <div className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden rounded-3xl">
-              <img 
-                src={proj.img} 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" 
-                alt={proj.title} 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-10 translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="text-indigo-400 font-mono mb-2">{proj.year}</span>
-                <h4 className="text-4xl md:text-6xl font-black uppercase italic">{proj.title}</h4>
-                <div className="mt-6 flex gap-4">
-                    <span className="px-4 py-2 border border-white/20 rounded-full text-[10px] font-bold">REACT</span>
-                    <span className="px-4 py-2 border border-white/20 rounded-full text-[10px] font-bold">GSAP</span>
+          <section key={proj.id} className="project-slide w-screen h-screen flex flex-col justify-center px-10 md:px-32 relative">
+            <h2 className="text-[15vw] font-black leading-none tracking-tighter opacity-10 absolute top-20 left-10 select-none">
+                0{proj.id}
+            </h2>
+            <div className="flex flex-col md:flex-row items-center gap-10 z-10">
+                <div className="w-full md:w-3/5 aspect-video overflow-hidden rounded-lg group">
+                    <img src={proj.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
                 </div>
-              </div>
+                <div className="w-full md:w-2/5">
+                    <h3 className="text-5xl md:text-7xl font-black italic">{proj.title}</h3>
+                    <p className="mt-6 text-slate-400 font-mono text-sm tracking-widest uppercase">Visual Design / Development</p>
+                    <button className="mt-10 px-8 py-4 border border-white rounded-full hover:bg-white hover:text-black transition-all">VIEW PROJECT</button>
+                </div>
             </div>
-          </div>
+          </section>
         ))}
       </div>
-
-      {/* CSS for Outlined Text (Stroked) */}
-      <style>{`
-        .stroke-text {
-          -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-        }
-      `}</style>
-    </section>
+    </div>
   );
 };
 
