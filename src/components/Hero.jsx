@@ -1,36 +1,56 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
-export default function Hero() {
+const Hero = () => {
+  const container = useRef();
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+    // Staggered reveal for text
+    tl.from(".reveal", {
+      y: 150,
+      skewY: 7,
+      duration: 1.5,
+      stagger: 0.2,
+      ease: "power4.out",
+      delay: 0.8
+    })
+    .from(".hero-sub", {
+      opacity: 0,
+      y: 20,
+      duration: 1
+    }, "-=1");
+  }, { scope: container });
+
   return (
-    <section className="relative min-h-[90vh] flex flex-col justify-center px-6 overflow-hidden grid-bg">
+    <section ref={container} className="h-screen flex flex-col justify-center items-center text-center px-4">
       {/* Background Glow */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 blur-[120px] rounded-full -z-10"></div>
-      
-      <div className="max-w-5xl mx-auto w-full">
-        <p className="text-indigo-400 font-mono text-sm tracking-[0.3em] mb-4 uppercase">
-          Based in India &bull; Full Stack Developer
-        </p>
-        
-        <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-tighter leading-[0.9] mb-8">
-          BUILDING <br />
-          <span className="text-slate-500">DIGITAL</span> PRODUCTS.
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/20 blur-[150px] rounded-full -z-10"></div>
+
+      <div className="overflow-hidden">
+        <h2 className="hero-sub text-indigo-400 font-mono tracking-[0.3em] mb-4 text-sm uppercase">Creative Developer</h2>
+      </div>
+
+      <div className="overflow-hidden py-2">
+        <h1 className="reveal text-6xl md:text-[10vw] font-black leading-[0.9] tracking-tighter">
+          DIGITAL <br /> <span className="text-transparent border-t-2 border-b-2 border-indigo-500/30 bg-clip-text bg-gradient-to-b from-white to-white/20">CRAFTING</span>
         </h1>
-        
-        <div className="flex flex-col md:flex-row md:items-end gap-8">
-          <p className="max-w-md text-lg text-slate-400 font-light leading-relaxed">
-            I am <span className="text-white font-medium">Romil Chavda</span>. I specialize in building highly interactive and performant web applications that users love.
-          </p>
-          
-          <div className="flex gap-4">
-            <a href="#projects" className="h-12 px-8 flex items-center bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all">
-              See My Work
-            </a>
-            <a href="#contact" className="h-12 px-8 flex items-center border border-slate-800 font-bold rounded-full hover:bg-slate-900 transition-all">
-              Hire Me
-            </a>
-          </div>
+      </div>
+
+      <div className="mt-10 hero-sub max-w-lg">
+        <p className="text-slate-400 text-lg md:text-xl leading-relaxed">
+          Building immersive digital experiences where <span className="text-white italic">design</span> meets <span className="text-white font-bold">performance</span>.
+        </p>
+      </div>
+
+      <div className="hero-sub mt-12">
+        <div className="animate-bounce text-indigo-500">
+           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;

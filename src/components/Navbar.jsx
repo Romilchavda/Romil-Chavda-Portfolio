@@ -1,71 +1,40 @@
-import React, { useState } from 'react';
-import { Menu, X, Code2 } from 'lucide-react';
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
+  const navRef = useRef();
 
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  useGSAP(() => {
+    gsap.from(navRef.current, {
+      y: -100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power4.out",
+      delay: 0.5
+    });
+  });
 
   return (
-    <nav className="fixed w-full z-50 top-0 bg-slate-950/80 backdrop-blur-xl border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        
-        {/* Logo Section */}
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <div className="p-2 bg-indigo-500 rounded-lg group-hover:rotate-12 transition-transform duration-300">
-            <Code2 className="text-white" size={24} />
-          </div>
-          <span className="text-xl font-bold tracking-tighter text-white">ROMIL.DEV</span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex gap-8 items-center">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-          <button className="bg-white text-black px-6 py-2 rounded-full text-xs font-bold hover:bg-indigo-500 hover:text-white transition-all duration-300">
-            RESUME
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-slate-300 hover:text-white transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+    <nav ref={navRef} className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] md:w-[60%] flex justify-between items-center px-8 py-4 backdrop-blur-xl bg-white/5 border border-white/10 rounded-full shadow-2xl">
+      <div className="text-xl font-black tracking-tighter">
+        RC<span className="text-indigo-500">.</span>
+      </div>
+      
+      <div className="hidden md:flex gap-10 text-[10px] uppercase tracking-[0.2em] font-bold">
+        {['Home', 'Work', 'About', 'Contact'].map((item) => (
+          <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-indigo-400 transition-colors relative group">
+            {item}
+            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 transition-all group-hover:w-full"></span>
+          </a>
+        ))}
       </div>
 
-      {/* Mobile Navigation Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-slate-950 border-b border-white/10 px-6 py-8 flex flex-col gap-6 animate-in slide-in-from-top duration-300">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              onClick={() => setIsOpen(false)}
-              className="text-lg font-medium text-slate-300 hover:text-indigo-400"
-            >
-              {link.name}
-            </a>
-          ))}
-          <button className="bg-indigo-600 text-white px-6 py-4 rounded-xl font-bold">
-            DOWNLOAD RESUME
-          </button>
-        </div>
-      )}
+      <button className="bg-white text-black px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all active:scale-95">
+        Resume
+      </button>
     </nav>
   );
-}
+};
+
+export default Navbar;

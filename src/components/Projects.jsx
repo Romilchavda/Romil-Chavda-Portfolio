@@ -1,60 +1,74 @@
-import React from 'react';
-import { Github, ExternalLink, Box } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  {
-    title: "Quantum Dashboard",
-    desc: "A futuristic data visualization tool for SaaS platforms built with React and Tailwind.",
-    tech: ["React", "D3.js", "Node.js"],
-    image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Apex E-Commerce",
-    desc: "A clean, minimal shopping experience with focus on smooth transitions and performance.",
-    tech: ["Next.js", "Stripe", "Tailwind"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-  }
+  { id: 1, title: "SOLANA DASHBOARD", category: "WEB3 / UI", img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000" },
+  { id: 2, title: "NEO BANKING APP", category: "FINTECH", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2000" },
+  { id: 3, title: "AI PORTFOLIO", category: "AI / ML", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000" },
 ];
 
-export default function Projects() {
-  return (
-    <section id="projects" className="py-32 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-end mb-16">
-          <div>
-            <h2 className="text-4xl font-bold text-white mb-2">Projects</h2>
-            <div className="h-1 w-20 bg-indigo-500"></div>
-          </div>
-          <p className="text-slate-500 hidden md:block">01 / SELECTED WORKS</p>
-        </div>
+const Projects = () => {
+  const sectionRef = useRef();
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {projects.map((p, i) => (
-            <div key={i} className="group cursor-pointer">
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-slate-900 border border-white/5">
-                <img src={p.image} className="w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-100 transition-all duration-700" alt={p.title} />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-80"></div>
-              </div>
-              
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">{p.title}</h3>
-                  <p className="text-slate-400 text-sm mb-4 leading-relaxed max-w-sm">{p.desc}</p>
-                  <div className="flex gap-2">
-                    {p.tech.map(t => (
-                      <span key={t} className="text-[10px] font-mono border border-slate-800 px-2 py-1 rounded text-slate-500 uppercase">{t}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex gap-4 text-slate-500">
-                  <Github size={20} className="hover:text-white" />
-                  <ExternalLink size={20} className="hover:text-white" />
-                </div>
+  useEffect(() => {
+    const cards = gsap.utils.toArray('.project-card');
+    cards.forEach((card) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        },
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      });
+    });
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="work" className="py-20 px-6 md:px-20">
+      <div className="flex justify-between items-end mb-20">
+        <div>
+          <h2 className="text-indigo-500 font-mono text-sm tracking-widest mb-2 uppercase">Selected Work</h2>
+          <h3 className="text-4xl md:text-6xl font-bold italic tracking-tighter">PROJECTS.</h3>
+        </div>
+        <p className="hidden md:block text-slate-500 text-right max-w-[200px] text-xs leading-loose font-mono uppercase">
+          Focusing on minimalism and user-centric interactions.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        {projects.map((proj) => (
+          <div key={proj.id} className="project-card group cursor-pointer">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5">
+              <img 
+                src={proj.img} 
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" 
+                alt={proj.title} 
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="px-6 py-2 border border-white rounded-full font-bold scale-50 group-hover:scale-100 transition-transform">VIEW CASE STUDY</span>
               </div>
             </div>
-          ))}
-        </div>
+            <div className="mt-6 flex justify-between items-start">
+              <div>
+                <h4 className="text-2xl font-bold tracking-tight">{proj.title}</h4>
+                <p className="text-slate-500 font-mono text-xs mt-1 uppercase tracking-widest">{proj.category}</p>
+              </div>
+              <div className="h-10 w-10 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-indigo-500 transition-colors">
+                ↗
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
-}
+};
+
+export default Projects;
